@@ -1,0 +1,20 @@
+# Development Dockerfile with hot-reload support
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package.json package-lock.json* ./
+
+# Install dependencies
+RUN npm ci
+
+# Copy source files
+COPY . .
+
+# Expose development port
+EXPOSE 3000
+
+# Start development server with host flag for Docker networking
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

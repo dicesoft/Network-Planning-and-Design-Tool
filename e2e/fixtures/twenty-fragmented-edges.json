@@ -1,0 +1,18 @@
+{
+  "$schema": "fixture/v1",
+  "name": "twenty-fragmented-edges",
+  "description": "Twenty (or more) fragmented edges for the multi-edge defrag E2E. The fixture is materialized by the debug page's Metro Longhaul preset (≥20 edges) plus a heavy random-fill pass to guarantee per-edge fragmentation.",
+  "loader": {
+    "kind": "debug-preset",
+    "preset": "metro-longhaul",
+    "expectedMinEdges": 20,
+    "postLoad": [
+      { "kind": "data-gen", "action": "Random Services", "preset": "Heavy" },
+      { "kind": "data-gen", "action": "Random Channel Fill", "preset": "Fragmented" }
+    ]
+  },
+  "expectations": {
+    "minEdgesWithFragmentation": 20,
+    "fragmentationIndexThreshold": 0.0
+  }
+}

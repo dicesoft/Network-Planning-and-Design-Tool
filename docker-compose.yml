@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  # Development service with hot-reload
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: network-planning-dev
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount source for hot-reload
+      - .:/app
+      # Don't mount node_modules (use container's)
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    profiles:
+      - dev
+    stdin_open: true
+    tty: true
+
+  # Production service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: network-planning-app
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+    profiles:
+      - prod
+    restart: unless-stopped
+
+  # Test runner service
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: network-planning-test
+    command: npm run test
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=test
+    profiles:
+      - test
+
+  # E2E test runner with Puppeteer
+  e2e:
+    build:
+      context: .
+      dockerfile: Dockerfile.e2e
+    container_name: network-planning-e2e
+    command: sh -c "npm run dev -- --host 0.0.0.0 & sleep 10 && npm run test:e2e"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=test
+      - TEST_URL=http://localhost:3000
+    profiles:
+      - e2e
+
+# Usage:
+# Development (with hot-reload):
+#   docker-compose --profile dev up
+#
+# Production:
+#   docker-compose --profile prod up --build
+#
+# Run tests:
+#   docker-compose --profile test run --rm test
+#
+# Run E2E tests:
+#   docker-compose --profile e2e run --rm e2e

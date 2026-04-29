@@ -1,0 +1,34 @@
+{
+  "$schema": "../../specs/001-app-improvements-apr2026/contracts/metric-explanations.schema.json",
+  "version": 1,
+  "explanations": {
+    "fullNetworkNetChange": {
+      "label": "Full Network Net Change",
+      "description": "Average utilization change across every edge in the network. Negative values mean less average utilization; positive values mean more.",
+      "formula": "sum(utilDelta_e for e in allEdges) / count(allEdges)",
+      "denominator": "All edges in the network (not just affected edges)"
+    },
+    "edgesAffected": {
+      "label": "Edges Affected",
+      "description": "Number of edges whose utilization changes as a result of the analyzed action.",
+      "formula": "count(e in allEdges where utilDelta_e != 0)"
+    },
+    "newBottlenecks": {
+      "label": "New Bottlenecks",
+      "description": "Edges that crossed the 85% utilization threshold as a result of this action.",
+      "formula": "count(e in allEdges where utilBefore_e <= 85 and utilAfter_e > 85)"
+    },
+    "thresholdLow": {
+      "label": "Healthy (< 60%)",
+      "description": "Plenty of headroom. Adding services here is low-risk and unlikely to create congestion."
+    },
+    "thresholdMid": {
+      "label": "Watch (60–85%)",
+      "description": "Approaching capacity. Plan for growth — sustained traffic in this band is the early signal that an upgrade is needed."
+    },
+    "thresholdHigh": {
+      "label": "Bottleneck (> 85%)",
+      "description": "Edge is congested. Service additions risk failure and existing services may experience contention. Consider rerouting or upgrading capacity."
+    }
+  }
+}

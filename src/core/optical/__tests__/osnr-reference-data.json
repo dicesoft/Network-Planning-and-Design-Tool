@@ -1,0 +1,339 @@
+{
+  "description": "Hand-verified OSNR reference scenarios for validation. GSNR ranges include NLI (GN model) contribution — values are lower than ASE-only estimates.",
+  "tolerance_dB": 0.5,
+  "scenarios": [
+    {
+      "id": "single-span-80km",
+      "description": "Single 80km span with EDFA, G.652.D fiber, 0 dBm launch, 5.5 dB NF",
+      "spans": [
+        { "length": 80, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 }
+      ],
+      "transceiver": {
+        "launchPower": 0,
+        "txOSNR": 40,
+        "requiredOSNR": 12,
+        "receiverSensitivity": -22,
+        "baudRate": 32
+      },
+      "amplifiers": [
+        { "id": "amp-1", "type": "edfa", "gain": 17, "noiseFigure": 5.5, "afterSpanIndex": 0 }
+      ],
+      "eolMargin": 3.0,
+      "expected": {
+        "feasible": true,
+        "totalDistance": 80,
+        "totalLoss": 17,
+        "spanCount": 1,
+        "finalGSNR_min": 25,
+        "finalGSNR_max": 30,
+        "systemMargin_min": 10
+      }
+    },
+    {
+      "id": "three-span-240km",
+      "description": "Three 80km spans with EDFAs, textbook multi-span link budget example",
+      "spans": [
+        { "length": 80, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 80, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 80, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 }
+      ],
+      "transceiver": {
+        "launchPower": 0,
+        "txOSNR": 45,
+        "requiredOSNR": 12,
+        "receiverSensitivity": -22,
+        "baudRate": 32
+      },
+      "amplifiers": [
+        { "id": "amp-1", "type": "edfa", "gain": 17, "noiseFigure": 6, "afterSpanIndex": 0 },
+        { "id": "amp-2", "type": "edfa", "gain": 17, "noiseFigure": 6, "afterSpanIndex": 1 },
+        { "id": "amp-3", "type": "edfa", "gain": 17, "noiseFigure": 6, "afterSpanIndex": 2 }
+      ],
+      "eolMargin": 3.0,
+      "expected": {
+        "feasible": true,
+        "totalDistance": 240,
+        "totalLoss": 51,
+        "spanCount": 3,
+        "finalGSNR_min": 20,
+        "finalGSNR_max": 26,
+        "systemMargin_min": 5
+      }
+    },
+    {
+      "id": "long-path-500km",
+      "description": "Long path of 5x100km spans with EDFAs, pushing DP-QPSK limits",
+      "spans": [
+        { "length": 100, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 100, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 100, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 100, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 100, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 }
+      ],
+      "transceiver": {
+        "launchPower": 0,
+        "txOSNR": 40,
+        "requiredOSNR": 12,
+        "receiverSensitivity": -22,
+        "baudRate": 32
+      },
+      "amplifiers": [
+        { "id": "amp-1", "type": "edfa", "gain": 21, "noiseFigure": 6, "afterSpanIndex": 0 },
+        { "id": "amp-2", "type": "edfa", "gain": 21, "noiseFigure": 6, "afterSpanIndex": 1 },
+        { "id": "amp-3", "type": "edfa", "gain": 21, "noiseFigure": 6, "afterSpanIndex": 2 },
+        { "id": "amp-4", "type": "edfa", "gain": 21, "noiseFigure": 6, "afterSpanIndex": 3 },
+        { "id": "amp-5", "type": "edfa", "gain": 21, "noiseFigure": 6, "afterSpanIndex": 4 }
+      ],
+      "eolMargin": 3.0,
+      "expected": {
+        "feasible": true,
+        "totalDistance": 500,
+        "totalLoss": 105,
+        "spanCount": 5,
+        "finalGSNR_min": 17,
+        "finalGSNR_max": 23,
+        "systemMargin_min": 2
+      }
+    },
+    {
+      "id": "zero-length-span",
+      "description": "Zero-length span (back-to-back transceiver test)",
+      "spans": [],
+      "transceiver": {
+        "launchPower": 0,
+        "txOSNR": 40,
+        "requiredOSNR": 12,
+        "receiverSensitivity": -22,
+        "baudRate": 32
+      },
+      "amplifiers": [],
+      "eolMargin": 3.0,
+      "expected": {
+        "feasible": true,
+        "totalDistance": 0,
+        "totalLoss": 0,
+        "spanCount": 0,
+        "finalGSNR_min": 39,
+        "finalGSNR_max": 41,
+        "systemMargin_min": 24
+      }
+    },
+    {
+      "id": "no-amplifiers-short",
+      "description": "Short 20km span with no amplifiers, signal arrives at receiver unamplified",
+      "spans": [
+        { "length": 20, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 }
+      ],
+      "transceiver": {
+        "launchPower": 0,
+        "txOSNR": 40,
+        "requiredOSNR": 12,
+        "receiverSensitivity": -22,
+        "baudRate": 32
+      },
+      "amplifiers": [],
+      "eolMargin": 3.0,
+      "expected": {
+        "feasible": true,
+        "totalDistance": 20,
+        "totalLoss": 5,
+        "spanCount": 1,
+        "finalGSNR_min": 29,
+        "finalGSNR_max": 35,
+        "systemMargin_min": 14
+      }
+    },
+    {
+      "id": "infeasible-dp16qam-long",
+      "description": "DP-16QAM over 400km — should be infeasible (required OSNR 22 dB)",
+      "spans": [
+        { "length": 100, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 100, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 100, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 100, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 }
+      ],
+      "transceiver": {
+        "launchPower": -10,
+        "txOSNR": 36,
+        "requiredOSNR": 22,
+        "receiverSensitivity": -18,
+        "baudRate": 64
+      },
+      "amplifiers": [
+        { "id": "amp-1", "type": "edfa", "gain": 21, "noiseFigure": 6, "afterSpanIndex": 0 },
+        { "id": "amp-2", "type": "edfa", "gain": 21, "noiseFigure": 6, "afterSpanIndex": 1 },
+        { "id": "amp-3", "type": "edfa", "gain": 21, "noiseFigure": 6, "afterSpanIndex": 2 },
+        { "id": "amp-4", "type": "edfa", "gain": 21, "noiseFigure": 6, "afterSpanIndex": 3 }
+      ],
+      "eolMargin": 3.0,
+      "expected": {
+        "feasible": false,
+        "totalDistance": 400,
+        "totalLoss": 84,
+        "spanCount": 4,
+        "finalGSNR_min": 10,
+        "finalGSNR_max": 25,
+        "systemMargin_max": -1
+      }
+    },
+    {
+      "id": "high-nf-amplifiers",
+      "description": "Two spans with high NF (7 dB) amplifiers — check OSNR degradation",
+      "spans": [
+        { "length": 60, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 60, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 }
+      ],
+      "transceiver": {
+        "launchPower": 0,
+        "txOSNR": 40,
+        "requiredOSNR": 12,
+        "receiverSensitivity": -22,
+        "baudRate": 32
+      },
+      "amplifiers": [
+        { "id": "amp-1", "type": "edfa", "gain": 13, "noiseFigure": 7, "afterSpanIndex": 0 },
+        { "id": "amp-2", "type": "edfa", "gain": 13, "noiseFigure": 7, "afterSpanIndex": 1 }
+      ],
+      "eolMargin": 3.0,
+      "expected": {
+        "feasible": true,
+        "totalDistance": 120,
+        "totalLoss": 26,
+        "spanCount": 2,
+        "finalGSNR_min": 22,
+        "finalGSNR_max": 29,
+        "systemMargin_min": 7
+      }
+    },
+    {
+      "id": "metro-ring-dp64qam",
+      "description": "Short metro link (40km) with DP-64QAM — high OSNR requirement (25 dB)",
+      "spans": [
+        { "length": 40, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 }
+      ],
+      "transceiver": {
+        "launchPower": 0,
+        "txOSNR": 40,
+        "requiredOSNR": 25,
+        "receiverSensitivity": -22,
+        "baudRate": 64
+      },
+      "amplifiers": [
+        { "id": "amp-1", "type": "edfa", "gain": 9, "noiseFigure": 5, "afterSpanIndex": 0 }
+      ],
+      "eolMargin": 3.0,
+      "expected": {
+        "feasible": true,
+        "totalDistance": 40,
+        "totalLoss": 9,
+        "spanCount": 1,
+        "finalGSNR_min": 33,
+        "finalGSNR_max": 40,
+        "systemMargin_min": 5
+      }
+    },
+    {
+      "id": "mixed-span-lengths",
+      "description": "Three spans of different lengths (40km, 80km, 60km) with different amplifier gains",
+      "spans": [
+        { "length": 40, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 80, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 60, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 }
+      ],
+      "transceiver": {
+        "launchPower": 0,
+        "txOSNR": 40,
+        "requiredOSNR": 12,
+        "receiverSensitivity": -22,
+        "baudRate": 32
+      },
+      "amplifiers": [
+        { "id": "amp-1", "type": "edfa", "gain": 9, "noiseFigure": 5.5, "afterSpanIndex": 0 },
+        { "id": "amp-2", "type": "edfa", "gain": 17, "noiseFigure": 5.5, "afterSpanIndex": 1 },
+        { "id": "amp-3", "type": "edfa", "gain": 13, "noiseFigure": 5.5, "afterSpanIndex": 2 }
+      ],
+      "eolMargin": 3.0,
+      "expected": {
+        "feasible": true,
+        "totalDistance": 180,
+        "totalLoss": 39,
+        "spanCount": 3,
+        "finalGSNR_min": 21,
+        "finalGSNR_max": 27,
+        "systemMargin_min": 5
+      }
+    },
+    {
+      "id": "ten-span-long-haul",
+      "description": "10x80km spans for 800km long-haul with DP-QPSK — borderline feasibility",
+      "spans": [
+        { "length": 80, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 80, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 80, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 80, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 80, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 80, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 80, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 80, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 80, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 },
+        { "length": 80, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5 }
+      ],
+      "transceiver": {
+        "launchPower": 0,
+        "txOSNR": 40,
+        "requiredOSNR": 12,
+        "receiverSensitivity": -22,
+        "baudRate": 32
+      },
+      "amplifiers": [
+        { "id": "amp-1", "type": "edfa", "gain": 17, "noiseFigure": 5.5, "afterSpanIndex": 0 },
+        { "id": "amp-2", "type": "edfa", "gain": 17, "noiseFigure": 5.5, "afterSpanIndex": 1 },
+        { "id": "amp-3", "type": "edfa", "gain": 17, "noiseFigure": 5.5, "afterSpanIndex": 2 },
+        { "id": "amp-4", "type": "edfa", "gain": 17, "noiseFigure": 5.5, "afterSpanIndex": 3 },
+        { "id": "amp-5", "type": "edfa", "gain": 17, "noiseFigure": 5.5, "afterSpanIndex": 4 },
+        { "id": "amp-6", "type": "edfa", "gain": 17, "noiseFigure": 5.5, "afterSpanIndex": 5 },
+        { "id": "amp-7", "type": "edfa", "gain": 17, "noiseFigure": 5.5, "afterSpanIndex": 6 },
+        { "id": "amp-8", "type": "edfa", "gain": 17, "noiseFigure": 5.5, "afterSpanIndex": 7 },
+        { "id": "amp-9", "type": "edfa", "gain": 17, "noiseFigure": 5.5, "afterSpanIndex": 8 },
+        { "id": "amp-10", "type": "edfa", "gain": 17, "noiseFigure": 5.5, "afterSpanIndex": 9 }
+      ],
+      "eolMargin": 3.0,
+      "expected": {
+        "feasible": true,
+        "totalDistance": 800,
+        "totalLoss": 170,
+        "spanCount": 10,
+        "finalGSNR_min": 15,
+        "finalGSNR_max": 22,
+        "systemMargin_min": 0
+      }
+    },
+    {
+      "id": "spliced-fiber",
+      "description": "80km span with 4 splices (0.1 dB each) — check splice loss contribution",
+      "spans": [
+        { "length": 80, "attenuation": 0.2, "chromaticDispersion": 17, "connectorCount": 2, "connectorLoss": 0.5, "spliceCount": 4, "spliceLoss": 0.1 }
+      ],
+      "transceiver": {
+        "launchPower": 0,
+        "txOSNR": 40,
+        "requiredOSNR": 12,
+        "receiverSensitivity": -22,
+        "baudRate": 32
+      },
+      "amplifiers": [
+        { "id": "amp-1", "type": "edfa", "gain": 17.4, "noiseFigure": 5.5, "afterSpanIndex": 0 }
+      ],
+      "eolMargin": 3.0,
+      "expected": {
+        "feasible": true,
+        "totalDistance": 80,
+        "totalLoss": 17.4,
+        "spanCount": 1,
+        "finalGSNR_min": 25,
+        "finalGSNR_max": 30,
+        "systemMargin_min": 10
+      }
+    }
+  ]
+}

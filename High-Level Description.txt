@@ -1,0 +1,15 @@
+# Network Planning & Design Tool:
+- Vendor Agnostic , modular and unrestricted support integration with multiple Network Vendors' NMS (Nokia, Huawei, Cisco, Juniper, Ciena,...).
+- Web based, with simple modular design and theme.
+- Open Source, and run 100% locally for privacy, and reliability.
+- Define a modular network structure JSON based for easier expandability, reliability, and robustness. support definition of Network Nodes with multiple stacks (Application -> IP -> DWDM), network edges connecting network nodes which have (name, id, type, distance, weight/cost).
+- Intended to be simplified and heavily abstracting network layers with no actual emulation of network layer stacks/technology/protocols. simple simulation and traffic routing to enable some sort of planning.
+- intended to be helpful tool, quick and fast result that guides further investigations with traditional planning and troubleshooting methods.
+- main features :
+	1. Modern & simple web UI which allow to draw a functional network Diagram (Nodes, Stacks, Edges) in a beautiful graphical representation and be saved in a modular JSON format.
+	2. User can define high level Services (IP or DWDM) with service type, rate, with high level capacity monitoring. DWDM Network have specific lambda capacity, DWDM service define data rate, and how much lambda is used, IP services needs DWDM service configured to carry it from source to destination.
+	3. Allow basic capacity Planning, Forecasts.
+	4. Define configuring service protection schemes IP (...) or DWDM (WSON 1+R, 1+1 SNCP, 1+1+R, None,...).
+	5. Allow 1,2, and more fiber cut simulations and survivability analysis. either manually in UI select some fibers to cut or run full automated analysis.
+	6. when planning new requirements, check available capacity and reports any limitations.
+	7. intended to be very high level Network digital twin.
